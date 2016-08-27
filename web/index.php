@@ -11,7 +11,7 @@ use Controllers\BaseController;
 use Decorators\ServerDecorator;
 
 // uncomment this line for integration tests
-$parameters = $parameters_test;
+//$parameters = $parameters_test;
 
 $doctrinePaths = [
     __DIR__ . "/../doctrine",
