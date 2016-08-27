@@ -3,22 +3,50 @@ function indexTemplate(array $viewData)
 {
     $template = <<<EOT
     <!DOCTYPE html>
-    <html>
+    <html ng-app="simpleChat">
     <head>
-    <title>Patrick test project</title>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
-    <script src="/js/jquery-1.11.3.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/angular.js"></script>
-    <script src="/js/angular-route.js"></script>
-    <script src="/js/angular-flash.min.js"></script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=1" />
+        <title>Simple chat test project</title>
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/project.css" />
+        <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/angular.js"></script>
+        <script src="/js/angular-flash.min.js"></script>
+        <script src="/js/angular/app.js"></script>
     </head>
 
     <body>
-    <div class="container">
-        hello world
+    <div class="container-fluid">
+        <h3 class="text-center">Simple chat test project</h3>
+        <div ng-controller="messagesController">
+            <flash-message duration="5000" show-close="false"></flash-message>
+            <div class="row form-row">
+                <div class="col-sm-12 col-md-6 col-md-offset-3">
+                    <form class="form-inline" ng-submit="submit()">
+                        <div class="row">
+                            <div class="form-group col-xs-10 text-center">
+                                <input type="text" class="form-control" name="input-field" placeholder="Let's type something here" name="message" ng-model="formData.message" />
+                            </div>
+                            <div class="col-xs-2 text-center">
+                                <button type="submit" class="btn btn-success">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div vkr-message-table></div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="/js/angular/services/messageGetter.js"></script>
+    <script src="/js/angular/directives/messageTable.js"></script>
+    <script src="/js/angular/controllers/messagesController.js"></script>
     </body>
     </html>
 EOT;

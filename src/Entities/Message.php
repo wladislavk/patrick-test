@@ -3,9 +3,10 @@ namespace Entities;
 
 class Message
 {
-    private $id;
-    private $message;
-    private $createdAt;
+    // cannot be private in order to be encoded to JSON
+    public $id;
+    public $message;
+    public $createdAt;
 
     public function getId()
     {

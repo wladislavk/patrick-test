@@ -1,13 +1,25 @@
 <?php
 namespace Components;
 
+use Decorators\ServerDecorator;
+
 class Router
 {
-    public static function getRoute(array $routes)
+    /**
+     * @var ServerDecorator
+     */
+    private $serverDecorator;
+
+    public function __construct(ServerDecorator $serverDecorator)
+    {
+        $this->serverDecorator = $serverDecorator;
+    }
+
+    public function getRoute(array $routes)
     {
         $currentRouteFunction = '';
         foreach ($routes as $routeUrl => $routeFunction) {
-            if ($routeUrl == $_SERVER['REQUEST_URI']) {
+            if ($routeUrl == $this->serverDecorator->getRequestUri()) {
                 $currentRouteFunction = $routeFunction;
                 break;
             }
@@ -16,11 +28,13 @@ class Router
             throw new \RuntimeException('No route matched');
         }
         $splitRoute = explode('/', $currentRouteFunction);
+        if (sizeof($splitRoute) != 2) {
+            throw new \RuntimeException('Route definition should be in form "controller/action"');
+        }
         $controllerClass = 'Controllers\\' . $splitRoute[0];
-        $controller = new $controllerClass();
         $functionName = $splitRoute[1];
         $route = [
-            'controller' => $controller,
+            'controller' => $controllerClass,
             'function' => $functionName,
         ];
         return $route;

@@ -8,6 +8,8 @@ class OldMessageRemover
 {
     private $entityManager;
 
+    const MAX_NUMBER_OF_MESSAGES = 10;
+
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -15,10 +17,13 @@ class OldMessageRemover
 
     public function remove()
     {
-        $query = "SELECT m FROM Entity\Message m ORDER BY m.createdAt DESC";
-        $result = $this->entityManager->createQuery($query)->getArrayResult();
+        $messages = $this->entityManager->getRepository('Entities\Message')
+            ->findBy([], ['createdAt' => 'DESC']);
+        if (!$messages) {
+            return;
+        }
         /** @var Message[] $oldMessages */
-        $oldMessages = array_slice($result, 10);
+        $oldMessages = array_slice($messages, self::MAX_NUMBER_OF_MESSAGES);
         foreach ($oldMessages as $message) {
             $this->entityManager->remove($message);
         }

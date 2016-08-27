@@ -7,10 +7,11 @@ use Components\Response;
 
 class ApiController extends BaseController
 {
-    public function getMessages()
+    public function get()
     {
         $messages = $this->entityManager->getRepository('Entities\Message')
             ->findBy([], ['createdAt' => 'DESC']);
+
         if (!$messages) {
             $messages = [];
         }
@@ -23,7 +24,14 @@ class ApiController extends BaseController
     public function send()
     {
         $oldMessageRemover = new OldMessageRemover($this->entityManager);
-        $messageText = $_POST['message'];
+        $postdata = json_decode(file_get_contents("php://input"), true);
+        if (!isset($postdata['message'])) {
+            $jsonData = [
+                'error' => 'Message cannot be empty',
+            ];
+            return new Response(json_encode($jsonData), 422);
+        }
+        $messageText = $postdata['message'];
         $message = new Message();
         $message->setMessage($messageText);
         $message->setCreatedAt(new \DateTime());

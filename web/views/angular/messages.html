@@ -1,0 +1,17 @@
+<div ng-if="messages.length" class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr class="row">
+            <th class="col-xs-4">created</th>
+            <th class="col-xs-8">text</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="message in messages" key-property="id" class="row">
+            <td class="col-xs-4">{{message.createdAt}}</td>
+            <td class="col-xs-8">{{message.message}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-if="!messages.length">No messages found</div>

@@ -1,6 +1,7 @@
 <?php
 namespace Controllers;
 
+use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 
@@ -12,6 +13,11 @@ abstract class BaseController
     public function __construct(array $parameters, Configuration $doctrineConfig)
     {
         $this->parameters = $parameters;
-        $this->entityManager = EntityManager::create($parameters['db_url'], $doctrineConfig);
+        $connectionParams = [
+            'driver' => $this->parameters['db_driver'],
+            'path' => $this->parameters['db_path'],
+        ];
+        $connection = DriverManager::getConnection($connectionParams);
+        $this->entityManager = EntityManager::create($connection, $doctrineConfig);
     }
 }

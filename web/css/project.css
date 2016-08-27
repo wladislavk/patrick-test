@@ -1,0 +1,11 @@
+table.table {
+    margin-bottom: 0;
+}
+
+div.form-row {
+    margin: 30px 0;
+}
+
+input, button {
+    width: 100% !important;
+}
