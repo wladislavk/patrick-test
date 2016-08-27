@@ -1,0 +1,10 @@
+{
+    "name": "vkr/patrick-test",
+    "type": "project",
+    "require": {
+        "doctrine/orm": "*"
+    },
+    "autoload": {
+        "psr-4": {"": "src/"}
+    }
+}
